@@ -1,25 +1,49 @@
-from sympy import Symbol, expand, binomial
+from sympy import *
+
+"""
+Programa que calcula la expansion binomial de un binomio y
+el termino i-esimo de la expansion binomial de un binomio
+"""
+
+# Definimos las variables simbolicas
+x = Symbol('x')
+y = Symbol('y')
+
+
+def factorial(n):
+    """
+    Funcion que calcula el factorial de un numero entero
+    """
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+
+def binomial(n, k):
+    """
+    Funcion que calcula el coeficiente binomial
+    """
+    return factorial(n) / (factorial(k) * factorial(n - k))
+
 
 def expansion_binomial(a, b, n):
-    x = Symbol('x')
-    y = Symbol('y')
-    resultado = ""
-    for i in range(n + 1):
-        coeficiente = binomial(n, i)
-        termino = coeficiente
-        if i == 0:
-            termino *= (a ** n)
-        elif i == n:
-            termino *= (b ** n)
-        else:
-            termino *= (a ** (n - i)) * (b ** i)
-        resultado += str(termino * x ** (n - i) * y ** i) + " + "
-    return resultado[:-3]
+    """
+    Funcion que calcula la expansion binomial de un binomio
+    """
+    resultado = 0
+    for k in range(n + 1):
+        resultado += binomial(n, k) * (a * x) ** (n - k) * (b * y) ** k
+    return resultado
 
-# Ejemplo de uso
-from sympy import pi, E
-a = 2
-b = 3
-n = 3
-resultado = expand(expansion_binomial(a, b, n)).subs({Symbol('x'): pi, Symbol('y'): E})
-print(resultado)
+
+def termino_binomial(a, b, n, i):
+    """
+    Funcion que calcula el termino i-esimo de la expansion binomial de un binomio
+    """
+    return binomial(n, i) * (a * x) ** (n - i) * (b * y) ** i
+
+
+# Ejemplo
+print(expansion_binomial(1, 1, 3))
+print(termino_binomial(1, 1, 3, 2))
